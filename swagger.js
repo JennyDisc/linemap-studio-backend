@@ -5,7 +5,7 @@ const doc = {
     title: "Line Map Studio API",
     description: "選單地圖工具 API 文件",
   },
-  host: "localhost:3000",
+  host: "linemap-studio-backend.onrender.com",
   schemes: ["http"],
   securityDefinitions: {
     Bearer: {

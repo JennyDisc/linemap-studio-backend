@@ -43,7 +43,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // 設定靜態檔案路徑：當前端有存放在 public 資料夾的圖片或 CSS，可以直接透過網址讀取
 app.use(express.static(path.join(__dirname, "public")));
-// '/api-doc'：自訂的網址路徑，瀏覽器輸入 localhost:3000/api-doc 來看文件
+// '/api-doc'：自訂的網址路徑，瀏覽器輸入 https://linemap-studio-backend.onrender.com/api-doc 就能看文件
 // swaggerUi.serve：由 swagger-ui-express 提供，負責準備好顯示文件需要的靜態檔案（如 CSS/JS）
 // swaggerUi.setup(swaggerFile)：在 swagger-output.json 裡的內容給 UI，讓它渲染成網頁
 app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
