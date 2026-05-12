@@ -1,0 +1,109 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Line Map Studio API",
+    "description": "選單地圖工具 API 文件",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "請加上 Bearer 前綴，例如：Bearer <TOKEN>"
+    }
+  },
+  "paths": {
+    "/users/login/line": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Line Login 登入",
+        "description": "前端傳入 Line ID Token，後端驗證後核發系統 JWT",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Line 驗證資訊",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id_token": {
+                  "type": "string",
+                  "example": "ID Token"
+                }
+              },
+              "required": [
+                "id_token"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/users/getUser": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "取得使用者資料",
+        "description": "取得目前登入使用者的資料",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/users/check-friendship": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "檢查頻道好友狀態",
+        "description": "確認使用者是否已加入官方帳號好友且未封鎖",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+  }
+}
