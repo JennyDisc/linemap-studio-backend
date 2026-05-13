@@ -22,11 +22,12 @@ const generateSendJWT = async (user, statusCode, res) => {
   // 3.回傳結果給前端
   res.status(statusCode).json({
     status: "success",
-    user: {
+    data: {
       token,
       name: user.displayName,
       photo: user.pictureUrl,
     },
+    message: "登入成功",
   });
 };
 
@@ -47,6 +48,7 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
 
   // 驗證 token 正確性，並取得 payload 內容(id)
   const decoded = await new Promise((resolve, reject) => {
+    // 解密成功會回傳 payload 裡的訊息，失敗(如 Token 被改過或過期、密鑰不正確等)則回傳錯誤
     jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
       if (err) {
         return next(appError(401, "jwt expired", next));
@@ -55,7 +57,9 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
       }
     });
   });
+  // 去資料庫確認這個使用者是否存在
   const currentUser = await User.findById(decoded.id);
+  // 查詢結果儲存在 currentUser 變數裡
   req.user = currentUser;
   next();
 });

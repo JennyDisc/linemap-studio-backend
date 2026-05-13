@@ -51,7 +51,12 @@ const userController = {
   // 取得目前登入者資料
   async getUser(req, res) {
     // isAuth 已經將當前使用者找出並存在 req.user
-    successHandle(res, req.user, "成功取得使用者資料");
+    const { _id, displayName, pictureUrl, lineUserId, createdAt } = req.user;
+    successHandle(
+      res,
+      { _id, displayName, pictureUrl, lineUserId, createdAt },
+      "成功取得使用者資料",
+    );
   },
 
   // 檢查是否為頻道好友
