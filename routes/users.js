@@ -11,13 +11,13 @@ router.post(
   handleErrorAsync(async (req, res, next) => {
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Line Login 登入'
-    // #swagger.description = '前端傳入 Line ID Token，後端驗證後核發系統 JWT'
+    // #swagger.description = '接收前端從 LINE 取得的 Authorization Code，後端驗證後核發系統 JWT'
 
     /* #swagger.parameters['body'] = {
       in: 'body',
-      description: 'Line 驗證資訊',
+      description: 'Line 登入所需資訊',
       required: true,
-      schema: { $id_token: 'ID Token' }
+      schema: { $code: 'string' }
     } */
 
     /* #swagger.responses[200] = { 

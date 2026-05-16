@@ -12,7 +12,7 @@ const doc = {
       type: "apiKey",
       in: "header",
       name: "Authorization",
-      description: "請加上 Bearer 前綴，例如：Bearer <TOKEN>",
+      description: "請輸入 Bearer token，格式：Bearer {token}",
     },
   },
 };

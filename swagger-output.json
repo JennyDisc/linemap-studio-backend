@@ -15,7 +15,7 @@
       "type": "apiKey",
       "in": "header",
       "name": "Authorization",
-      "description": "請加上 Bearer 前綴，例如：Bearer <TOKEN>"
+      "description": "請輸入 Bearer token，格式：Bearer {token}"
     }
   },
   "paths": {
@@ -25,23 +25,23 @@
           "Users"
         ],
         "summary": "Line Login 登入",
-        "description": "前端傳入 Line ID Token，後端驗證後核發系統 JWT",
+        "description": "接收前端從 LINE 取得的 Authorization Code，後端驗證後核發系統 JWT",
         "parameters": [
           {
             "name": "body",
             "in": "body",
-            "description": "Line 驗證資訊",
+            "description": "Line 登入所需資訊",
             "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "id_token": {
+                "code": {
                   "type": "string",
-                  "example": "ID Token"
+                  "example": "string"
                 }
               },
               "required": [
-                "id_token"
+                "code"
               ]
             }
           }

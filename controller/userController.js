@@ -8,15 +8,30 @@ const axios = require("axios");
 const userController = {
   // 登入
   async lineLogin(req, res, next) {
-    const { id_token } = req.body;
+    const { code } = req.body;
 
-    // 1.驗證前端是否有傳 id_token
-    if (!id_token) {
-      return next(appError(400, "缺少 Line 驗證碼 (ID Token)"));
+    // 1.驗證前端是否有傳 code
+    if (!code) {
+      return next(appError(400, "缺少 Line 驗證碼 (code)"));
     }
 
     try {
-      // 2.呼叫 line api 驗證 id_token 並取得使用者資料
+      // 2.用 code 向 LINE 換取 access_token 和 id_token
+      const tokenResponse = await axios.post(
+        "https://api.line.me/oauth2/v2.1/token",
+        new URLSearchParams({
+          grant_type: "authorization_code",
+          code: code,
+          redirect_uri: process.env.LINE_CALLBACK_URL,
+          client_id: process.env.LINE_CHANNEL_ID,
+          client_secret: process.env.LINE_CHANNEL_SECRET,
+        }).toString(),
+        { headers: { "Content-Type": "application/x-www-form-urlencoded" } },
+      );
+
+      const { id_token } = tokenResponse.data;
+
+      // 3.向 LINE 驗證 id_token 並取得使用者資料
       const lineResponse = await axios.post(
         "https://api.line.me/oauth2/v2.1/verify",
         new URLSearchParams({
@@ -33,14 +48,14 @@ const userController = {
         picture: pictureUrl,
       } = lineResponse.data;
 
-      // 3.尋找使用者，如果不存在就建立，存在就更新
+      // 4.尋找使用者，如果不存在就建立，存在就更新
       const user = await User.findOneAndUpdate(
         { lineUserId },
         { displayName, pictureUrl },
         { upsert: true, new: true, runValidators: true },
       );
 
-      // 4.產生系統自己的 JWT 並存入 lastToken
+      // 5.產生系統自己的 JWT 並存入 lastToken
       generateSendJWT(user, 200, res);
     } catch (error) {
       // 如果 Line 伺服器回報 id_token 錯誤或過期
