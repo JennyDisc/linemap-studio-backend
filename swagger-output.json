@@ -8,6 +8,7 @@
   "host": "linemap-studio-backend.onrender.com",
   "basePath": "/",
   "schemes": [
+    "https",
     "http"
   ],
   "securityDefinitions": {

@@ -6,7 +6,7 @@ const doc = {
     description: "選單地圖工具 API 文件",
   },
   host: "linemap-studio-backend.onrender.com",
-  schemes: ["http"],
+  schemes: ["https", "http"],
   securityDefinitions: {
     Bearer: {
       type: "apiKey",

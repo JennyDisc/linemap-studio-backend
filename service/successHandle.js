@@ -1,8 +1,14 @@
-function successHandle(res, message) {
+function successHandle(res, data, message) {
   const responseObject = {
     status: "success",
   };
 
+  // 如果有傳入 data 才會包進回應中
+  if (data) {
+    responseObject.data = data;
+  }
+
+  // 如果有傳入 message 才會包進回應中
   if (message) {
     responseObject.message = message;
   }
