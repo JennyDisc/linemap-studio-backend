@@ -90,7 +90,7 @@ const userController = {
         },
       );
 
-      const isFriend = response.data.friend;
+      const isFriend = response.data.friendFlag;
 
       if (isFriend) {
         successHandle(res, { isFriend: true }, "使用者已加入好友");
@@ -98,6 +98,14 @@ const userController = {
         successHandle(res, { isFriend: false }, "請先加入官方帳號好友");
       }
     } catch (error) {
+      if (error.response && error.response.status === 404) {
+        return successHandle(
+          res,
+          { isFriend: false },
+          "該使用者尚未加入官方帳號",
+        );
+      }
+
       return next(appError(500, "檢查好友狀態失敗"));
     }
   },
